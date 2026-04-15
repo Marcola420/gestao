@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <h1 style="font-size:22px; font-weight:600; margin-bottom:20px;">
     📊 Dashboard
 </h1>

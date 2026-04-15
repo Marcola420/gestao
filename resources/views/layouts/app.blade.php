@@ -21,6 +21,7 @@
             background: #0f172a;
             padding: 24px;
             border-right: 1px solid #1e293b;
+            position: relative;
         }
 
         .sidebar h2 {
@@ -97,6 +98,29 @@
         tr:hover {
             background: #f8fafc;
         }
+
+        /* LOGOUT BUTTON */
+        .logout {
+            position: absolute;
+            bottom: 20px;
+            left: 24px;
+            right: 24px;
+        }
+
+        .logout button {
+            width: 100%;
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .logout button:hover {
+            background: #b91c1c;
+        }
     </style>
 </head>
 
@@ -113,6 +137,17 @@
         <a href="/services">✂️ Serviços</a>
         <a href="/appointments">📅 Agendamentos</a>
         <a href="/payments">💰 Pagamentos</a>
+
+        <!-- LOGOUT -->
+        <div class="logout">
+            <form method="POST" action="/logout">
+                @csrf
+
+                <button type="submit">
+                    Sair
+                </button>
+            </form>
+        </div>
     </div>
 
     <!-- CONTEÚDO -->

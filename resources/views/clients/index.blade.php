@@ -2,38 +2,52 @@
 
 @section('content')
 
-<h2>Clientes</h2>
+<h1 style="font-size:22px; font-weight:600; margin-bottom:20px;">
+    👤 Clientes
+</h1>
 
-<a href="{{ route('clients.create') }}" class="btn btn-primary mb-3">Novo Cliente</a>
+<a class="btn" href="{{ route('clients.create') }}">+ Novo Cliente</a>
 
-@if(session('success'))
-<div class="alert alert-success">{{ session('success') }}</div>
-@endif
+<br><br>
 
-<table class="table table-bordered">
+<div class="card">
+
+<table>
     <tr>
         <th>Nome</th>
         <th>Email</th>
+        <th>Telefone</th>
         <th>Ações</th>
     </tr>
 
     @foreach($clients as $client)
-    <tr>
-        <td>{{ $client->name }}</td>
-        <td>{{ $client->email }}</td>
-        <td>
-            <a href="{{ route('clients.edit', $client) }}" class="btn btn-warning">Editar</a>
+        <tr>
+            <td>{{ $client->name }}</td>
+            <td>{{ $client->email }}</td>
+            <td>{{ $client->phone }}</td>
+            <td>
+                <a href="{{ route('clients.edit', $client->id) }}"
+                   style="color:#2563eb; text-decoration:none;">
+                    Editar
+                </a>
+                |
+                <form action="{{ route('clients.destroy', $client->id) }}"
+                      method="POST"
+                      style="display:inline;">
+                    @csrf
+                    @method('DELETE')
 
-            <form action="{{ route('clients.destroy', $client) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button class="btn btn-danger">Excluir</button>
-            </form>
-        </td>
-    </tr>
+                    <button type="submit"
+                            style="background:none; border:none; color:#ef4444; cursor:pointer;">
+                        Excluir
+                    </button>
+                </form>
+            </td>
+        </tr>
     @endforeach
+
 </table>
 
-{{ $clients->links() }}
+</div>
 
 @endsection

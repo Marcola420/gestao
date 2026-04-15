@@ -2,71 +2,87 @@
 
 @section('content')
 
-<div class="container-fluid">
+<h1 style="font-size:22px; font-weight:600; margin-bottom:20px;">
+    📊 Dashboard
+</h1>
 
-    <h2 class="mb-4">📊 Dashboard</h2>
+<!-- CARDS -->
+<div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:20px;">
 
-    <div class="row">
-
-        <!-- CLIENTES -->
-        <div class="col-md-4">
-            <div class="card bg-primary text-white mb-3">
-                <div class="card-body">
-                    <h5>Total de Clientes</h5>
-                    <h2>{{ $totalClients ?? 0 }}</h2>
-                </div>
-            </div>
-        </div>
-
-        <!-- AGENDAMENTOS -->
-        <div class="col-md-4">
-            <div class="card bg-success text-white mb-3">
-                <div class="card-body">
-                    <h5>Agendamentos</h5>
-                    <h2>{{ $totalAppointments ?? 0 }}</h2>
-                </div>
-            </div>
-        </div>
-
-        <!-- FATURAMENTO -->
-        <div class="col-md-4">
-            <div class="card bg-warning text-dark mb-3">
-                <div class="card-body">
-                    <h5>Faturamento</h5>
-                    <h2>R$ {{ $totalRevenue ?? 0 }}</h2>
-                </div>
-            </div>
-        </div>
-
+    <div class="card">
+        <p style="color:#64748b; font-size:14px;">Total de Clientes</p>
+        <h1 style="font-size:28px;">{{ $totalClients }}</h1>
     </div>
 
-    <!-- GRÁFICO -->
-    <div class="card mt-4">
-        <div class="card-body">
-            <h5>📈 Faturamento Mensal</h5>
-            <canvas id="chart"></canvas>
-        </div>
+    <div class="card">
+        <p style="color:#64748b; font-size:14px;">Agendamentos</p>
+        <h1 style="font-size:28px;">{{ $totalAppointments }}</h1>
+    </div>
+
+    <div class="card">
+        <p style="color:#64748b; font-size:14px;">Faturamento</p>
+        <h1 style="font-size:28px;">
+            R$ {{ number_format($totalRevenue, 2, ',', '.') }}
+        </h1>
     </div>
 
 </div>
 
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<br>
+
+<!-- GRAFICO -->
+<div class="card">
+    <h3 style="margin-bottom:15px;">📈 Faturamento Mensal</h3>
+
+    <canvas id="grafico" height="100"></canvas>
+</div>
 
 <script>
-    const ctx = document.getElementById('chart');
+document.addEventListener("DOMContentLoaded", function () {
+
+    const ctx = document.getElementById('grafico');
 
     new Chart(ctx, {
         type: 'bar',
         data: {
             labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
             datasets: [{
-                label: 'Faturamento (R$)',
-                data: [500, 800, 1200, 900, 1500, 2000],
-                borderWidth: 1
+                label: 'Faturamento',
+                data: [
+                    1200,
+                    1900,
+                    3000,
+                    2500,
+                    3200,
+                    {{ $totalRevenue ?? 0 }}
+                ],
+                backgroundColor: [
+                    '#2563eb',
+                    '#3b82f6',
+                    '#60a5fa',
+                    '#1d4ed8',
+                    '#93c5fd',
+                    '#2563eb'
+                ],
+                borderRadius: 6
             }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
         }
     });
+
+});
 </script>
 
 @endsection

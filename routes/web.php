@@ -1,7 +1,5 @@
 <?php
 
-<?php
-
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
@@ -39,19 +37,22 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 
 Route::middleware('auth')->group(function () {
 
-    // 👥 CRUD Clientes
+    // 👥 CLIENTES (já existe)
     Route::resource('clients', ClientController::class);
 
-    // 👤 Perfil do usuário
-    Route::get('/profile', [ProfileController::class, 'edit'])
-        ->name('profile.edit');
+    // 📅 AGENDAMENTOS
+    Route::resource('appointments', \App\Http\Controllers\AppointmentController::class);
 
-    Route::patch('/profile', [ProfileController::class, 'update'])
-        ->name('profile.update');
+    // 💰 PAGAMENTOS
+    Route::resource('payments', \App\Http\Controllers\PaymentController::class);
 
-    Route::delete('/profile', [ProfileController::class, 'destroy'])
-        ->name('profile.destroy');
+    // ✂️ SERVIÇOS
+    Route::resource('services', \App\Http\Controllers\ServiceController::class);
 
+    // 👤 PERFIL
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 
